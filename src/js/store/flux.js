@@ -20,6 +20,47 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
+			login: async (name, password) => {
+				// console.log("Funciona");
+				try{
+					let response = await fetch("https://congenial-computing-machine-v6vjv6p7prvq2x9gw-3000.app.github.dev/user",{
+						method: "POST",
+						headers: {
+							"Content-Type":"application/json"
+						},
+							body: JSON.stringify({
+							"name": name,
+							"password": password
+						})
+					})
+					let data = await response.json()
+					console.log(data);
+						return true
+				}catch(error){
+					console.log(error);
+					return false
+				}
+
+			},
+			get_profile: async () => {
+				let token = localStorage.getItem("token")
+				try{
+					let response = await fetch("https://congenial-computing-machine-v6vjv6p7prvq2x9gw-3000.app.github.dev/user",{
+						method:"GET",
+						headers:{
+							"Content-Type":"application/json",
+							"Authorization":`Bearer ${token}`,
+						}
+					})
+				let data = await response.json()
+				localStorage.setItem("token", data.access_token)	
+				console.log(data);
+					return true
+				}catch(error){
+					console.log(error);
+					return false
+				}
+			},
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
