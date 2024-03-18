@@ -16,14 +16,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			characters: [],
 			details: [],
 			planets: [],
-			vehicles: []
+			vehicles: [],
+			favorites:[],
+			items:[]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			login: async (name, password) => {
 				// console.log("Funciona");
 				try{
-					let response = await fetch("https://congenial-computing-machine-v6vjv6p7prvq2x9gw-3000.app.github.dev/user",{
+					let response = await fetch("https://congenial-computing-machine-v6vjv6p7prvq2x9gw-3000.app.github.dev/login",{
 						method: "POST",
 						headers: {
 							"Content-Type":"application/json"
@@ -33,16 +35,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"password": password
 						})
 					})
+				if (response.ok){
 					let data = await response.json()
+					localStorage.setItem("token", data.access_token)
 					console.log(data);
 						return true
+				}else{
+					console.log(`Error: ${response.status}`);
+					return false
+				}
+					
 				}catch(error){
 					console.log(error);
 					return false
 				}
 
 			},
-			get_profile: async () => {
+			get_profile: async (email, password) => {
 				let token = localStorage.getItem("token")
 				try{
 					let response = await fetch("https://congenial-computing-machine-v6vjv6p7prvq2x9gw-3000.app.github.dev/user",{
@@ -53,11 +62,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					})
 				let data = await response.json()
-				localStorage.setItem("token", data.access_token)	
-				console.log(data);
+				// localStorage.setItem("token", data.access_token)	
+				// console.log(data);
 					return true
 				}catch(error){
-					console.log(error);
+					// console.log(error);
 					return false
 				}
 			},

@@ -7,7 +7,6 @@ import "../../styles/demo.css";
 import { LoginForm } from "../component/loginForm";
 
 export const Login = () => {
-	const { store, actions } = useContext(Context);
 
 	return (
 		<div className="container">

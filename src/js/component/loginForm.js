@@ -6,17 +6,21 @@ import PropTypes from "prop-types";
 
 
 export const LoginForm = () => {
-    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
 
-    function handleLogin(e){
+    async function handleLogin(e){
         e.preventDefault()
-        console.log(name, password);
-        let logged = actions.login(name, password)
+
+        // console.log(email, password);
+
+        let logged = await actions.login(email, password)
         if (logged){
-            actions.get_profile()
+            navigate("/")
+        }else{
+            alert("email o contraseña incorrectas")
             navigate("/")
         }
     }
@@ -24,8 +28,8 @@ export const LoginForm = () => {
     return (
         <form onSubmit={handleLogin}>
             <div className="form-group">
-                <label htmlFor="exampleInputName1">Name</label>
-                <input type="text" className="form-control" placeholder="Enter name" onChange={(e)=>setName(e.target.value)}/>
+                <label htmlFor="exampleInputemail1">email</label>
+                <input type="text" className="form-control" placeholder="Enter email" onChange={(e)=>setEmail(e.target.value)}/>
             </div>
             <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Password</label>
